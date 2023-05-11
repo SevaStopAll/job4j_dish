@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=dish
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/shortcut/data:/var/lib/postgresql/data
+    restart: always
+
+  job4j_dish:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+    - spring.datasource.url=jdbc:postgresql://db:5432/dish
+    - spring.datasource.username=postgres
+    - spring.datasource.password=password
+    - spring.datasource.driver-class-name=org.postgresql.Driver
+    ports:
+      - "127.0.0.1:80:8081"
+    container_name: job4j_dish
+    depends_on:
+      - db

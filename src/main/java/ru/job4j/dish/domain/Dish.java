@@ -18,4 +18,7 @@ public class Dish {
         @Getter
         @Setter
         private String description;
+        @Getter
+        @Setter
+        private int price;
 }
